@@ -8,6 +8,8 @@ public class ReactiveCodingApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReactiveCodingApplication.class, args);
-	}
 
+		System.out.println("Welcome");
+
+	}
 }
