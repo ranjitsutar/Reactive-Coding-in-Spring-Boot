@@ -2,9 +2,12 @@ package com.reactivecoding;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuple3;
+
+import java.util.Locale;
 
 @SpringBootTest
 class ReactiveCodingApplicationTests {
@@ -41,23 +44,48 @@ class ReactiveCodingApplicationTests {
 
 		Mono<Tuple3<String, String, Integer>> zipMono = Mono.zip(m1, m2, m3);
 
-		zipMono.subscribe(data ->
-				{
-					System.out.println(data);
-					System.out.println(data.getT1());
-					System.out.println(data.getT2());
-					System.out.println(data.getT3());
+//		zipMono.subscribe(data ->
+//				{
+//					System.out.println(data);
+//					System.out.println(data.getT1());
+//					System.out.println(data.getT2());
+//					System.out.println(data.getT3());
+//
+//				}
+//		);
+//
+//		Mono<Tuple2<String, String>> tuple2Mono = m1.zipWith(m2);
+//
+//		tuple2Mono.subscribe(data->{
+//			System.out.println(data);
+//			System.out.println(data.getT1());
+//			System.out.println(data.getT2());
+//		});
 
-				}
-		);
+		// map
 
-		Mono<Tuple2<String, String>> tuple2Mono = m1.zipWith(m2);
+		Mono<String> map1 = m1.map(item -> item.toUpperCase(Locale.ROOT));
+		map1.subscribe(System.out::println);
+		
+		// flatMap
 
-		tuple2Mono.subscribe(data->{
-			System.out.println(data);
-			System.out.println(data.getT1());
-			System.out.println(data.getT2());
+		Mono<String[]> flatMap = m1.flatMap(item -> Mono.just(item.split(" ")));
+
+		flatMap.subscribe(data ->{
+			for (String s : data)
+				System.out.println(s);
 		});
+
+
+		// flatMapMany
+		System.out.println("______________________________");
+
+		Flux<String> stringFlux = m1.flatMapMany(data -> Flux.just(data.split(" ")));
+		stringFlux.subscribe(data ->
+						System.out.println(data)
+				);
+
+
 	}
 
 
