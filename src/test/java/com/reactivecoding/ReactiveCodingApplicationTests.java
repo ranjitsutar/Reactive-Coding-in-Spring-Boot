@@ -88,18 +88,27 @@ class ReactiveCodingApplicationTests {
 
 
 		// concat
-		System.out.println("--------------------");
-		Flux<String> con1 = m1.concatWith(m2)
-				.log().delayElements(Duration.ofMillis(2000));
+//		System.out.println("--------------------");
+//		Flux<String> con1 = m1.concatWith(m2)
+//				.log().delayElements(Duration.ofMillis(2000));
+//
+//		con1.subscribe(data ->{
+//			System.out.println(Thread.currentThread().getName());
+//			System.out.println(data);
+//		});
+//
+//		Thread.sleep(5000);
+//		con1.subscribe(System.out::println);
+//		System.out.println("main End");
 
-		con1.subscribe(data ->{
+	//delayElement
+		m1.delayElement(Duration.ofSeconds(2));
+		m1.subscribe( data -> {
 			System.out.println(Thread.currentThread().getName());
 			System.out.println(data);
+
 		});
 
-		Thread.sleep(5000);
-		con1.subscribe(System.out::println);
-		System.out.println("main End");
 
 
 	}
